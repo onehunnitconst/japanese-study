@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>プロジェクト・ヘイルメアリー — 発表原稿</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Nanum+Myeongjo:wght@400;700&family=Shippori+Mincho:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f5efe2;
+    --paper-edge: #ebe3d2;
+    --ink: #1f1a14;
+    --ink-soft: #4a3f30;
+    --ink-faded: #8a7a5e;
+    --accent: #8b2e1f;
+    --accent-soft: #b8593f;
+    --gold: #9c7a3a;
+    --rule: #c9bda3;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { background: #2a2520; }
+
+  body {
+    background:
+      radial-gradient(ellipse at top left, rgba(156, 122, 58, 0.08), transparent 60%),
+      radial-gradient(ellipse at bottom right, rgba(139, 46, 31, 0.06), transparent 60%),
+      var(--paper);
+    color: var(--ink);
+    font-family: 'Nanum Myeongjo', 'Shippori Mincho', serif;
+    line-height: 1.7;
+    min-height: 100vh;
+    padding: 60px 20px;
+  }
+
+  /* paper grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(74, 63, 48, 0.015) 0px, transparent 1px, transparent 2px, rgba(74, 63, 48, 0.015) 3px);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    background: var(--paper);
+    padding: 80px 70px;
+    position: relative;
+    z-index: 2;
+    box-shadow:
+      0 1px 0 var(--paper-edge),
+      0 30px 60px -20px rgba(31, 26, 20, 0.25),
+      0 60px 120px -40px rgba(31, 26, 20, 0.2);
+    border: 1px solid var(--paper-edge);
+  }
+
+  /* corner film marks */
+  .container::before,
+  .container::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border: 1.5px solid var(--accent);
+    opacity: 0.5;
+  }
+  .container::before {
+    top: 24px;
+    left: 24px;
+    border-right: none;
+    border-bottom: none;
+  }
+  .container::after {
+    bottom: 24px;
+    right: 24px;
+    border-left: none;
+    border-top: none;
+  }
+
+  /* ===== HERO IMAGE ===== */
+  .hero-image-wrap {
+    margin: -80px -70px 50px -70px;
+    position: relative;
+    overflow: hidden;
+    background: #0a0a0a;
+  }
+
+  .hero-image-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: contrast(1.05) saturate(0.95);
+  }
+
+  /* warm vignette overlay to integrate with paper aesthetic */
+  .hero-image-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, transparent 60%, rgba(31, 26, 20, 0.4) 100%),
+      radial-gradient(ellipse at center, transparent 50%, rgba(31, 26, 20, 0.35) 100%);
+    pointer-events: none;
+  }
+
+  /* film perforations on sides */
+  .hero-image-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(90deg, #0a0a0a 0px, #0a0a0a 12px, transparent 12px),
+      linear-gradient(-90deg, #0a0a0a 0px, #0a0a0a 12px, transparent 12px),
+      repeating-linear-gradient(0deg, transparent 0px, transparent 14px, var(--paper) 14px, var(--paper) 22px, transparent 22px, transparent 36px);
+    background-position: left, right, left, right;
+    background-size: 12px 100%, 12px 100%, 12px 100%, 12px 100%;
+    background-repeat: no-repeat, no-repeat, repeat-y, repeat-y;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .hero-credit {
+    position: absolute;
+    bottom: 14px;
+    right: 24px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: rgba(245, 239, 226, 0.7);
+    z-index: 3;
+    text-transform: uppercase;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    text-align: center;
+    padding-bottom: 50px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 60px;
+    position: relative;
+  }
+
+  .header-tag {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+
+  .header-tag::before, .header-tag::after {
+    content: '✦';
+    margin: 0 14px;
+    color: var(--gold);
+  }
+
+  .header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--ink);
+    margin-bottom: 14px;
+    letter-spacing: 0.01em;
+    line-height: 1.15;
+  }
+
+  .header h2 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    letter-spacing: 0.05em;
+    margin-bottom: 28px;
+  }
+
+  .header-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-faded);
+  }
+
+  .header-meta span:first-child::after,
+  .header-meta span:nth-child(2)::after {
+    content: '·';
+    margin-left: 16px;
+    color: var(--gold);
+  }
+
+  /* ===== SECTION ===== */
+  .section {
+    margin-bottom: 56px;
+    position: relative;
+    padding-left: 70px;
+  }
+
+  .section-num {
+    position: absolute;
+    left: 0;
+    top: -8px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-style: italic;
+    color: var(--accent);
+    line-height: 1;
+    font-weight: 500;
+  }
+
+  .section-num::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    margin-top: 8px;
+    opacity: 0.7;
+  }
+
+  .section-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--ink-faded);
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+
+  /* Korean line */
+  .ko {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    line-height: 1.75;
+    padding-bottom: 20px;
+    margin-bottom: 22px;
+    border-bottom: 1px dotted var(--rule);
+    font-style: normal;
+  }
+
+  .ko::before {
+    content: '韓 ';
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-right: 10px;
+    padding: 3px 7px;
+    background: rgba(139, 46, 31, 0.08);
+    border-radius: 2px;
+    vertical-align: 2px;
+  }
+
+  /* Japanese line */
+  .jp {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.2rem;
+    color: var(--ink);
+    line-height: 2.4;
+    font-weight: 500;
+  }
+
+  .jp::before {
+    content: '日 ';
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-right: 10px;
+    padding: 3px 7px;
+    background: rgba(156, 122, 58, 0.1);
+    border-radius: 2px;
+    vertical-align: 4px;
+    font-weight: 600;
+  }
+
+  /* Ruby (furigana) styling */
+  ruby {
+    ruby-position: over;
+  }
+  rt {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.55em;
+    font-weight: 400;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+    margin-bottom: 2px;
+  }
+
+  /* ===== VIDEO EMBED ===== */
+  .video-section {
+    margin: 50px 0 60px 0;
+    position: relative;
+  }
+
+  .video-frame {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 ratio */
+    background: #0a0a0a;
+    border: 1px solid var(--ink);
+    box-shadow:
+      0 2px 0 var(--paper-edge),
+      0 20px 40px -10px rgba(31, 26, 20, 0.35),
+      inset 0 0 0 6px var(--paper),
+      inset 0 0 0 7px var(--ink);
+  }
+
+  .video-frame .video-link {
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    width: calc(100% - 14px);
+    height: calc(100% - 14px);
+    display: block;
+    overflow: hidden;
+    text-decoration: none;
+  }
+
+  .video-frame .video-link img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: contrast(1.05) saturate(0.95) brightness(0.78);
+    transition: filter 0.4s ease, transform 0.6s ease;
+  }
+
+  .video-frame .video-link:hover img {
+    filter: contrast(1.05) saturate(1) brightness(0.92);
+    transform: scale(1.03);
+  }
+
+  .video-frame .play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    background: rgba(139, 46, 31, 0.92);
+    color: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    padding-left: 6px;
+    box-shadow: 0 4px 28px rgba(0, 0, 0, 0.55), inset 0 0 0 2px rgba(245, 239, 226, 0.3);
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+
+  .video-frame .video-link:hover .play-button {
+    transform: translate(-50%, -50%) scale(1.08);
+    background: var(--accent);
+  }
+
+  .video-frame .play-hint {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.78rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(245, 239, 226, 0.92);
+    background: rgba(31, 26, 20, 0.55);
+    padding: 7px 18px;
+    border: 1px solid rgba(245, 239, 226, 0.25);
+    white-space: nowrap;
+  }
+
+  .video-caption {
+    margin-top: 18px;
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    color: var(--ink-faded);
+    text-transform: uppercase;
+  }
+
+  .video-caption::before,
+  .video-caption::after {
+    content: '—';
+    margin: 0 12px;
+    color: var(--gold);
+  }
+
+  .video-marker {
+    text-align: center;
+    margin-bottom: 18px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .video-marker::before {
+    content: '▶ ';
+    margin-right: 4px;
+  }
+
+  /* ===== HIGHLIGHTED SECTION (closing) ===== */
+  .section.closing {
+    margin-top: 70px;
+    padding-top: 50px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .section.closing .section-num {
+    color: var(--gold);
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--ink-faded);
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+  }
+
+  .footer-ornament {
+    color: var(--gold);
+    font-size: 1.2rem;
+    letter-spacing: 1em;
+    margin-bottom: 16px;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 720px) {
+    body { padding: 30px 12px; }
+    .container { padding: 50px 28px; }
+    .hero-image-wrap { margin: -50px -28px 40px -28px; }
+    .header h1 { font-size: 2rem; }
+    .header h2 { font-size: 1.1rem; }
+    .section { padding-left: 0; }
+    .section-num {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 12px;
+      font-size: 1.8rem;
+    }
+    .section-num::after { display: none; }
+    .ko { font-size: 1rem; }
+    .jp { font-size: 1.1rem; line-height: 2.2; }
+    .video-caption { font-size: 0.8rem; letter-spacing: 0.1em; }
+  }
+
+  /* ===== PRINT ===== */
+  @media print {
+    body { background: white; padding: 0; }
+    body::before { display: none; }
+    .container {
+      box-shadow: none;
+      border: none;
+      padding: 20px;
+      max-width: 100%;
+    }
+    .container::before, .container::after { display: none; }
+    .section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- ===== HERO IMAGE ===== -->
+    <div class="hero-image-wrap">
+      <img src="hero.png" alt="Ryan Gosling as Ryland Grace in Project Hail Mary">
+      <div class="hero-credit">Project Hail Mary · Still</div>
+    </div>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+      <div class="header-tag">Cinema Presentation</div>
+      <h1>Project Hail Mary</h1>
+      <h2>プロジェクト・ヘイルメアリー</h2>
+      <div class="header-meta">
+        <span>Week 03</span>
+        <span>Favorite Movie</span>
+        <span>日本語スタディ</span>
+      </div>
+    </header>
+
+    <!-- ===== 0. 인사 ===== -->
+    <section class="section">
+      <div class="section-num">00</div>
+      <div class="section-label">Opening · 挨拶</div>
+      <p class="ko">여러분 안녕하세요, 오늘은 제가 좋아하는 영화를 소개하고자 합니다.</p>
+      <p class="jp"><ruby>皆<rt>みな</rt></ruby>さん、こんにちは。<ruby>今日<rt>きょう</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>のお<ruby>気<rt>き</rt></ruby>に<ruby>入<rt>い</rt></ruby>りの<ruby>映画<rt>えいが</rt></ruby>を<ruby>紹介<rt>しょうかい</rt></ruby>したいと<ruby>思<rt>おも</rt></ruby>います。</p>
+    </section>
+
+    <!-- ===== 0-2. 영화 소개 ===== -->
+    <section class="section">
+      <div class="section-num">01</div>
+      <div class="section-label">The Film · 作品</div>
+      <p class="ko">제가 좋아하는 영화는 바로 [프로젝트 헤일메리]입니다.</p>
+      <p class="jp"><ruby>私<rt>わたし</rt></ruby>のお<ruby>気<rt>き</rt></ruby>に<ruby>入<rt>い</rt></ruby>りの<ruby>映画<rt>えいが</rt></ruby>は、ずばり「プロジェクト・ヘイルメアリー」です。</p>
+    </section>
+
+    <!-- ===== 1. 작품 정보 ===== -->
+    <section class="section">
+      <div class="section-num">02</div>
+      <div class="section-label">Based On · 原作</div>
+      <p class="ko">[프로젝트 헤일메리]는 동명의 소설을 기반으로 한 SF 영화입니다.</p>
+      <p class="jp">「プロジェクト・ヘイルメアリー」は、<ruby>同名<rt>どうめい</rt></ruby>の<ruby>小説<rt>しょうせつ</rt></ruby>を<ruby>原作<rt>げんさく</rt></ruby>にしたSF<ruby>映画<rt>えいが</rt></ruby>です。</p>
+    </section>
+
+    <!-- ===== 2. 배우 소개 ===== -->
+    <section class="section">
+      <div class="section-num">03</div>
+      <div class="section-label">Starring · 主演</div>
+      <p class="ko">[라라랜드]와 [바비]에 출연한 라이언 고슬링이 단독 주연입니다.</p>
+      <p class="jp">「ララランド」や「バービー」で<ruby>知<rt>し</rt></ruby>られるライアン・ゴズリングが、<ruby>単独<rt>たんどく</rt></ruby>で<ruby>主演<rt>しゅえん</rt></ruby>を<ruby>務<rt>つと</rt></ruby>めています。</p>
+    </section>
+
+    <!-- ===== 3. 줄거리 ===== -->
+    <section class="section">
+      <div class="section-num">04</div>
+      <div class="section-label">Synopsis · あらすじ</div>
+      <p class="ko">인류 멸망의 위기를 구하기 위해, 아득히 저편의 항성계 '타우세티'로 찾아온 과학자 '라일랜드 그레이스'. 같은 목적으로 찾아온 외계인 '록키'와 만나 두 세계를 구하기 위한 해결책을 함께 찾아 나가는 이야기입니다.</p>
+      <p class="jp"><ruby>人類滅亡<rt>じんるいめつぼう</rt></ruby>の<ruby>危機<rt>きき</rt></ruby>を<ruby>救<rt>すく</rt></ruby>うため、はるか<ruby>彼方<rt>かなた</rt></ruby>の<ruby>恒星系<rt>こうせいけい</rt></ruby>「タウ・セチ」へとやって<ruby>来<rt>き</rt></ruby>た<ruby>科学者<rt>かがくしゃ</rt></ruby>「ライランド・グレース」。<ruby>同<rt>おな</rt></ruby>じ<ruby>目的<rt>もくてき</rt></ruby>でやって<ruby>来<rt>き</rt></ruby>た<ruby>異星人<rt>いせいじん</rt></ruby>「ロッキー」と<ruby>出会<rt>であ</rt></ruby>い、<ruby>二<rt>ふた</rt></ruby>つの<ruby>世界<rt>せかい</rt></ruby>を<ruby>救<rt>すく</rt></ruby>うための<ruby>解決策<rt>かいけつさく</rt></ruby>を<ruby>共<rt>とも</rt></ruby>に<ruby>探<rt>さが</rt></ruby>していく――そんな<ruby>物語<rt>ものがたり</rt></ruby>です。</p>
+    </section>
+
+    <!-- ===== 4. 좋아하는 이유 도입 ===== -->
+    <section class="section">
+      <div class="section-num">05</div>
+      <div class="section-label">Why I Love It · 好きな理由</div>
+      <p class="ko">제가 이 영화를 좋아하는 이유는 크게 두 가지가 있습니다.</p>
+      <p class="jp"><ruby>私<rt>わたし</rt></ruby>がこの<ruby>映画<rt>えいが</rt></ruby>を<ruby>好<rt>す</rt></ruby>きな<ruby>理由<rt>りゆう</rt></ruby>は、<ruby>大<rt>おお</rt></ruby>きく<ruby>分<rt>わ</rt></ruby>けて<ruby>二<rt>ふた</rt></ruby>つあります。</p>
+    </section>
+
+    <!-- ===== 5. 첫 번째 이유 ===== -->
+    <section class="section">
+      <div class="section-num">06</div>
+      <div class="section-label">Reason One · 一つ目</div>
+      <p class="ko">첫 번째 이유는 영상미입니다.</p>
+      <p class="jp"><ruby>一<rt>ひと</rt></ruby>つ<ruby>目<rt>め</rt></ruby>の<ruby>理由<rt>りゆう</rt></ruby>は、その<ruby>映像美<rt>えいぞうび</rt></ruby>です。</p>
+    </section>
+
+    <!-- ===== 6. 영상 소개 ===== -->
+    <section class="section">
+      <div class="section-num">07</div>
+      <div class="section-label">Favorite Scene · 名場面</div>
+      <p class="ko">프로젝트 헤일메리는 영상미가 훌륭한 영화인데요. 그 중에서도 가장 좋아하는 장면이 있다면 바로 타우세티의 행성에서 페트로바선을 감상하는 장면입니다. 함께 감상하시죠.</p>
+      <p class="jp">「プロジェクト・ヘイルメアリー」は<ruby>本当<rt>ほんとう</rt></ruby>に<ruby>映像美<rt>えいぞうび</rt></ruby>の<ruby>素晴<rt>すば</rt></ruby>らしい<ruby>映画<rt>えいが</rt></ruby>なのですが、<ruby>中<rt>なか</rt></ruby>でも<ruby>私<rt>わたし</rt></ruby>が<ruby>一番<rt>いちばん</rt></ruby><ruby>好<rt>す</rt></ruby>きなのが、タウ・セチの<ruby>惑星<rt>わくせい</rt></ruby>から「ペトロヴァ・ライン」を<ruby>眺<rt>なが</rt></ruby>めるシーンです。それでは、ご<ruby>一緒<rt>いっしょ</rt></ruby>にご<ruby>覧<rt>らん</rt></ruby>ください。</p>
+    </section>
+
+    <!-- ===== VIDEO EMBED ===== -->
+    <div class="video-section">
+      <div class="video-marker">Play · 再生</div>
+      <div class="video-frame">
+        <a class="video-link"
+           href="https://youtu.be/5SCyWn-K7YU"
+           target="_blank"
+           rel="noopener noreferrer"
+           title="Watch on YouTube">
+          <img src="https://img.youtube.com/vi/5SCyWn-K7YU/maxresdefault.jpg"
+               alt="Project Hail Mary — Petrova Line Scene">
+          <div class="play-button">▶</div>
+          <div class="play-hint">YouTubeで再生</div>
+        </a>
+      </div>
+      <div class="video-caption">Petrova Line · ペトロヴァ・ライン</div>
+    </div>
+
+    <!-- ===== 7. 두 번째 이유 ===== -->
+    <section class="section">
+      <div class="section-num">08</div>
+      <div class="section-label">Reason Two · 二つ目</div>
+      <p class="ko">두 번째 이유는 종족을 초월한 우정입니다.</p>
+      <p class="jp"><ruby>二<rt>ふた</rt></ruby>つ<ruby>目<rt>め</rt></ruby>の<ruby>理由<rt>りゆう</rt></ruby>は、<ruby>種<rt>しゅ</rt></ruby>を<ruby>超<rt>こ</rt></ruby>えた<ruby>友情<rt>ゆうじょう</rt></ruby>です。</p>
+    </section>
+
+    <!-- ===== 8. 두 생명체의 차이 ===== -->
+    <section class="section">
+      <div class="section-num">09</div>
+      <div class="section-label">Two Beings · 二つの生命体</div>
+      <p class="ko">서로 다른 항성계에서 온 두 생명체는 언어도, 생존 환경도 달라 처음엔 서로를 이해하지 못했습니다.</p>
+      <p class="jp"><ruby>異<rt>こと</rt></ruby>なる<ruby>恒星系<rt>こうせいけい</rt></ruby>からやって<ruby>来<rt>き</rt></ruby>た<ruby>二<rt>ふた</rt></ruby>つの<ruby>生命体<rt>せいめいたい</rt></ruby>は、<ruby>言語<rt>げんご</rt></ruby>も<ruby>生存環境<rt>せいぞんかんきょう</rt></ruby>もまったく<ruby>違<rt>ちが</rt></ruby>い、<ruby>最初<rt>さいしょ</rt></ruby>は<ruby>互<rt>たが</rt></ruby>いを<ruby>理解<rt>りかい</rt></ruby>し<ruby>合<rt>あ</rt></ruby>うことができませんでした。</p>
+    </section>
+
+    <!-- ===== 9. 친구가 되는 과정 ===== -->
+    <section class="section">
+      <div class="section-num">10</div>
+      <div class="section-label">A Common Language · 共通の言葉</div>
+      <p class="ko">수학과 과학이라는 연결고리로 서로에 대해 이해하게 되고 둘은 좋은 친구가 됩니다.</p>
+      <p class="jp">しかし、<ruby>数学<rt>すうがく</rt></ruby>と<ruby>科学<rt>かがく</rt></ruby>という<ruby>共通<rt>きょうつう</rt></ruby>の「<ruby>言葉<rt>ことば</rt></ruby>」を<ruby>通<rt>とお</rt></ruby>して、<ruby>二人<rt>ふたり</rt></ruby>は<ruby>少<rt>すこ</rt></ruby>しずつ<ruby>互<rt>たが</rt></ruby>いを<ruby>理解<rt>りかい</rt></ruby>し<ruby>合<rt>あ</rt></ruby>い、やがてかけがえのない<ruby>友<rt>とも</rt></ruby>となっていきます。</p>
+    </section>
+
+    <!-- ===== 10. 우정 스토리의 감동 ===== -->
+    <section class="section">
+      <div class="section-num">11</div>
+      <div class="section-label">Beyond Species · 種を超えて</div>
+      <p class="ko">이런 종족을 초월한 우정 스토리는 관객으로 하여금 감동을 줍니다.</p>
+      <p class="jp">こうした<ruby>種<rt>しゅ</rt></ruby>を<ruby>超<rt>こ</rt></ruby>えた<ruby>友情<rt>ゆうじょう</rt></ruby>の<ruby>物語<rt>ものがたり</rt></ruby>は、<ruby>観<rt>み</rt></ruby>る<ruby>人<rt>ひと</rt></ruby>の<ruby>心<rt>こころ</rt></ruby>を<ruby>深<rt>ふか</rt></ruby>く<ruby>打<rt>う</rt></ruby>つものがあります。</p>
+    </section>
+
+    <!-- ===== 11. 마무리 ===== -->
+    <section class="section closing">
+      <div class="section-num">12</div>
+      <div class="section-label">Closing · 結び</div>
+      <p class="ko">시간이 되시면 이 영화를 꼭 감상해주세요. 감사합니다!</p>
+      <p class="jp">お<ruby>時間<rt>じかん</rt></ruby>があれば、ぜひこの<ruby>映画<rt>えいが</rt></ruby>をご<ruby>覧<rt>らん</rt></ruby>になってみてください。ご<ruby>清聴<rt>せいちょう</rt></ruby>ありがとうございました。</p>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <div class="footer">
+      <div class="footer-ornament">✦ ✦ ✦</div>
+      <div>Fin. — 終</div>
+    </div>
+
+  </div>
+</body>
+</html>
