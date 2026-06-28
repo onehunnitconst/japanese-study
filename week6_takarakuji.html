@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>もし宝くじに当たったら</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A1A1A;
+    --sub:#6B6B6B;
+    --line:#E8E8E8;
+    --bg:#FFFFFF;
+    --panel:#F7F7F5;
+    --accent:#2563EB; /* default */
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    font-family:"Noto Sans KR","Noto Sans JP",sans-serif;
+    background:#EDEDEA;
+    color:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .deck{
+    width:100%;max-width:960px;
+    aspect-ratio:16/10;
+    background:var(--bg);
+    position:relative;
+    overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+
+  /* ---- slide ---- */
+  .slide{
+    position:absolute;inset:0;
+    display:none;
+    flex-direction:column;
+    padding:48px 56px 64px;
+  }
+  .slide.active{display:flex}
+
+  /* top accent bar — the one flat structural device */
+  .bar{height:8px;width:100%;background:var(--accent);position:absolute;top:0;left:0}
+
+  .eyebrow{
+    display:flex;align-items:center;gap:12px;
+    font-size:13px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--accent);
+    margin-bottom:20px;
+  }
+  .eyebrow .num{
+    width:30px;height:30px;border-radius:50%;
+    background:var(--accent);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;letter-spacing:0;
+  }
+
+  h1{
+    font-family:"Noto Sans JP";
+    font-weight:900;font-size:46px;line-height:1.25;
+    letter-spacing:-.01em;margin-bottom:8px;
+  }
+  .slide-title{
+    font-family:"Noto Sans JP";
+    font-weight:900;font-size:30px;line-height:1.3;
+    margin-bottom:24px;
+  }
+
+  /* three-block content */
+  .blocks{display:flex;flex-direction:column;gap:14px;overflow:auto}
+
+  .block{
+    border-left:4px solid var(--line);
+    padding:2px 0 2px 18px;
+  }
+  .block .label{
+    font-size:11px;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--sub);margin-bottom:6px;
+  }
+  .jp{
+    border-left-color:var(--accent);
+  }
+  .jp .label{color:var(--accent)}
+  .jp p{
+    font-family:"Noto Sans JP";
+    font-weight:500;font-size:21px;line-height:2.05;
+  }
+  .jp strong{font-weight:900;color:var(--accent)}
+  ruby rt{
+    font-size:.52em;font-weight:500;
+    color:var(--sub);letter-spacing:0;
+  }
+  .ko p{font-size:16px;line-height:1.7;color:#333}
+  .pron .label{color:#A07B00}
+  .pron{border-left-color:#E9C46A;background:#FCF7E8}
+  .pron p{font-size:14.5px;line-height:1.8;color:#5C4A14}
+
+  /* ---- title slide ---- */
+  .title-slide{justify-content:center;align-items:flex-start}
+  .title-slide .kicker{
+    font-size:15px;font-weight:700;color:var(--accent);
+    letter-spacing:.1em;margin-bottom:22px;
+  }
+  .title-slide .sub{
+    margin-top:26px;font-size:17px;color:var(--sub);line-height:1.7;
+  }
+  .ticket{
+    margin-top:34px;display:inline-flex;gap:10px;
+  }
+  .ticket span{
+    width:46px;height:46px;border-radius:8px;
+    background:var(--accent);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-family:"Noto Sans JP";font-weight:900;font-size:22px;
+  }
+  .ticket span:nth-child(2){background:#DB5375}
+  .ticket span:nth-child(3){background:#0D9488}
+  .ticket span:nth-child(4){background:#E9A23B}
+
+  /* ---- nav ---- */
+  .nav{
+    position:absolute;bottom:18px;left:56px;right:56px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .dots{display:flex;gap:8px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--line);border:none;cursor:pointer;padding:0}
+  .dot.on{background:var(--accent);width:22px;border-radius:4px}
+  .count{font-size:12px;color:var(--sub);font-variant-numeric:tabular-nums}
+  .arrows{display:flex;gap:8px}
+  .arrows button{
+    width:32px;height:32px;border:1px solid var(--line);background:#fff;
+    border-radius:6px;cursor:pointer;font-size:15px;color:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .arrows button:hover{background:var(--panel)}
+  .arrows button:focus-visible,.dot:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  @media (max-width:640px){
+    .slide{padding:34px 24px 60px}
+    h1{font-size:30px}
+    .slide-title{font-size:22px}
+    .jp p{font-size:17px;line-height:1.95}
+    .ko p{font-size:14px}
+    .pron p{font-size:12.5px}
+    .nav{left:24px;right:24px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 0: TITLE -->
+  <section class="slide title-slide active" style="--accent:#1A1A1A">
+    <div class="bar"></div>
+    <div class="kicker">今週(こんしゅう)のテーマ</div>
+    <h1>もし<ruby>宝<rt>たから</rt></ruby>くじに<ruby>当<rt>あ</rt></ruby>たったら、<br>何(なに)をしたい？</h1>
+    <div class="sub">만약 복권에 당첨되면 무엇을 하고 싶은가?<br>주제 발표 · 일본어 스터디</div>
+    <div class="ticket"><span>1</span><span>2</span><span>3</span><span>★</span></div>
+  </section>
+
+  <!-- 1: INTRO -->
+  <section class="slide" style="--accent:#1A1A1A">
+    <div class="bar"></div>
+    <div class="eyebrow">はじめに · 도입</div>
+    <div class="blocks">
+      <div class="block jp">
+        <div class="label">日本語</div>
+        <p><ruby>皆<rt>みな</rt></ruby>さん、こんにちは。お<ruby>久<rt>ひさ</rt></ruby>しぶりです。<br>
+        <ruby>今日<rt>きょう</rt></ruby>のテーマは「もし<strong><ruby>宝<rt>たから</rt></ruby>くじ</strong>に<strong><ruby>当<rt>あ</rt></ruby>たったら</strong>、<ruby>何<rt>なに</rt></ruby>をしたいか？」です。<br>
+        もし<ruby>今<rt>いま</rt></ruby>、宝くじに当たったら、<ruby>私<rt>わたし</rt></ruby>はこんなことをしてみたいと<ruby>思<rt>おも</rt></ruby>います。</p>
+      </div>
+      <div class="block ko">
+        <div class="label">한국어</div>
+        <p>안녕하세요 여러분, 오랜만입니다. 오늘의 주제는 "만약 복권에 당첨되면 무엇을 하고 싶은가?" 입니다. 만약 지금 복권에 당첨된다면, 저는 이런 것들을 하고 싶습니다.</p>
+      </div>
+      <div class="block pron">
+        <div class="label">발음</div>
+        <p>미나상, 콘니치와. 오히사시부리데스. / 쿄-노 테-마와 「모시 타카라쿠지니 아탇타라, 나니오 시타이카?」데스. / 모시 이마, 타카라쿠지니 아탇타라, 와타시와 콘나 코토오 시테 미타이토 오모이마스.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2: WISH 1 -->
+  <section class="slide" style="--accent:#2563EB">
+    <div class="bar"></div>
+    <div class="eyebrow"><span class="num">1</span>会社(かいしゃ)を辞(や)めてフリーランスへ</div>
+    <div class="blocks">
+      <div class="block jp">
+        <div class="label">日本語</div>
+        <p>まず<ruby>最初<rt>さいしょ</rt></ruby>に、<ruby>今<rt>いま</rt></ruby><strong><ruby>勤<rt>つと</rt></ruby>めている</strong><ruby>会社<rt>かいしゃ</rt></ruby>を<strong><ruby>辞<rt>や</rt></ruby>める</strong>つもりです。その<ruby>後<rt>あと</rt></ruby>は、これまでの<strong><ruby>実務経験<rt>じつむけいけん</rt></ruby></strong>を<strong><ruby>活<rt>い</rt></ruby>かして</strong>、<strong>フリーランス</strong>の<ruby>開発者<rt>かいはつしゃ</rt></ruby>として<ruby>自由<rt>じゆう</rt></ruby>に<ruby>働<rt>はたら</rt></ruby>きたいです。</p>
+      </div>
+      <div class="block ko">
+        <div class="label">한국어</div>
+        <p>가장 먼저, 지금 다니는 회사를 퇴사할 것입니다. 그 다음에는 그동안의 직무 경험을 살려 프리랜서 개발자로서 자유롭게 일하고 싶습니다.</p>
+      </div>
+      <div class="block pron">
+        <div class="label">발음</div>
+        <p>마즈 사이쇼니, 이마 츠토메테 이루 카이샤오 야메루 츠모리데스. 소노 아토와, 코레마데노 지츠무케-켄오 이카시테, 후리-란스노 카이하츠샤토시테 지유-니 하타라키타이데스.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3: WISH 2 -->
+  <section class="slide" style="--accent:#DB5375">
+    <div class="bar"></div>
+    <div class="eyebrow"><span class="num">2</span>彼女(かのじょ)と結婚(けっこん)する</div>
+    <div class="blocks">
+      <div class="block jp">
+        <div class="label">日本語</div>
+        <p><ruby>今<rt>いま</rt></ruby><strong><ruby>付<rt>つ</rt></ruby>き<ruby>合<rt>あ</rt></ruby>っている</strong><ruby>彼女<rt>かのじょ</rt></ruby>と、<strong><ruby>結婚<rt>けっこん</rt></ruby></strong>を<ruby>少<rt>すこ</rt></ruby>し<strong><ruby>早<rt>はや</rt></ruby>めよう</strong>と<ruby>思<rt>おも</rt></ruby>っています。<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>住<rt>す</rt></ruby>む<ruby>家<rt>いえ</rt></ruby>を<ruby>用意<rt>ようい</rt></ruby>してから、<ruby>結婚式<rt>けっこんしき</rt></ruby>を<strong><ruby>盛大<rt>せいだい</rt></ruby>に</strong><ruby>開<rt>ひら</rt></ruby>いて、<ruby>友達<rt>ともだち</rt></ruby>をみんな<strong><ruby>招待<rt>しょうたい</rt></ruby></strong>したいです。</p>
+      </div>
+      <div class="block ko">
+        <div class="label">한국어</div>
+        <p>지금 만나고 있는 여자친구와 결혼을 조금 더 앞당기려고 합니다. 함께 살 집을 마련한 다음, 결혼식을 크게 열어 친구들을 모두 초대하고 싶습니다.</p>
+      </div>
+      <div class="block pron">
+        <div class="label">발음</div>
+        <p>이마 츠키앋테 이루 카노조토, 켇콘오 스코시 하야메요-토 오몯테 이마스. 잇쇼니 스무 이에오 요-이시테카라, 켇콘시키오 세-다이니 히라이테, 토모다치오 민나 쇼-타이시타이데스.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4: WISH 3 -->
+  <section class="slide" style="--accent:#0D9488">
+    <div class="bar"></div>
+    <div class="eyebrow"><span class="num">3</span>カフェとゲームセンターを<ruby>開<rt>ひら</rt></ruby>く</div>
+    <div class="blocks">
+      <div class="block jp">
+        <div class="label">日本語</div>
+        <p><ruby>私<rt>わたし</rt></ruby>は2<ruby>年<rt>ねん</rt></ruby>ほどドーナツ<ruby>屋<rt>や</rt></ruby>でコーヒーとドーナツを<ruby>作<rt>つく</rt></ruby>っていました。そして<strong><ruby>何十年<rt>なんじゅうねん</rt></ruby></strong>もの<ruby>間<rt>あいだ</rt></ruby>、<strong>ゲームセンター</strong>で<strong>リズムゲーム</strong>を<ruby>楽<rt>たの</rt></ruby>しんできました。だから、この<ruby>経験<rt>けいけん</rt></ruby>と<ruby>趣味<rt>しゅみ</rt></ruby>を<strong><ruby>活<rt>い</rt></ruby>かして</strong>、カフェとゲームセンターを<ruby>一緒<rt>いっしょ</rt></ruby>に<strong><ruby>運営<rt>うんえい</rt></ruby>する</strong>お<ruby>店<rt>みせ</rt></ruby>を<ruby>自分<rt>じぶん</rt></ruby>で<ruby>開<rt>ひら</rt></ruby>きたいです。おいしいコーヒーとドーナツを<ruby>売<rt>う</rt></ruby>りながら、<strong><ruby>片隅<rt>かたすみ</rt></ruby></strong>にはリズムゲームの<ruby>機械<rt>きかい</rt></ruby>を<ruby>置<rt>お</rt></ruby>いておくつもりです。</p>
+      </div>
+      <div class="block ko">
+        <div class="label">한국어</div>
+        <p>저는 2년 정도 도넛 가게에서 커피와 도넛을 만들었고, 수십 년 동안 오락실에서 리듬 게임을 즐겨 왔습니다. 그래서 이 경험과 취미를 살려, 카페와 오락실을 함께 운영하는 가게를 직접 차리고 싶습니다. 맛있는 커피와 도넛을 팔면서, 한쪽에는 리듬 게임 기계를 놓아 둘 생각입니다.</p>
+      </div>
+      <div class="block pron">
+        <div class="label">발음</div>
+        <p>와타시와 니넨호도 도-나츠야데 코-히-토 도-나츠오 츠쿹테 이마시타. 소시테 난쥬-넨모노 아이다, 게-무센타-데 리즈무게-무오 타노신데 키마시타. 다카라, 코노 케-켄토 슈미오 이카시테, 카페토 게-무센타-오 잇쇼니 운에-스루 오미세오 지분데 히라키타이데스. 오이시이 코-히-토 도-나츠오 우리나가라, 카타스미니와 리즈무게-무노 키카이오 오이테 오쿠 츠모리데스.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5: OUTRO -->
+  <section class="slide" style="--accent:#E9A23B">
+    <div class="bar"></div>
+    <div class="eyebrow">おわりに · 마무리</div>
+    <div class="blocks">
+      <div class="block jp">
+        <div class="label">日本語</div>
+        <p>もちろん、<ruby>宝<rt>たから</rt></ruby>くじに<ruby>当<rt>あ</rt></ruby>たる<strong><ruby>確率<rt>かくりつ</rt></ruby></strong>はとても<ruby>低<rt>ひく</rt></ruby>いですが、こうして<strong><ruby>想像<rt>そうぞう</rt></ruby></strong>してみるだけでも<ruby>楽<rt>たの</rt></ruby>しいですね。<ruby>皆<rt>みな</rt></ruby>さんは、宝くじに当たったら<ruby>何<rt>なに</rt></ruby>をしたいですか？<ruby>以上<rt>いじょう</rt></ruby>で<strong><ruby>発表<rt>はっぴょう</rt></ruby></strong>を<ruby>終<rt>お</rt></ruby>わります。ありがとうございました。</p>
+      </div>
+      <div class="block ko">
+        <div class="label">한국어</div>
+        <p>물론 복권에 당첨될 확률은 아주 낮지만, 이렇게 상상해 보는 것만으로도 즐겁습니다. 여러분은 복권에 당첨되면 무엇을 하고 싶으신가요? 이상으로 발표를 마치겠습니다. 감사합니다.</p>
+      </div>
+      <div class="block pron">
+        <div class="label">발음</div>
+        <p>모치론, 타카라쿠지니 아타루 카쿠리츠와 토테모 히쿠이데스가, 코-시테 소-조-시테 미루 다케데모 타노시이데스네. 미나상와, 타카라쿠지니 아탇타라 나니오 시타이데스카? 이죠-데 핲표-오 오와리마스. 아리가토- 고자이마시타.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NAV -->
+  <div class="nav">
+    <div class="dots" id="dots"></div>
+    <span class="count" id="count"></span>
+    <div class="arrows">
+      <button id="prev" aria-label="이전 슬라이드">‹</button>
+      <button id="next" aria-label="다음 슬라이드">›</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  const dotsWrap=document.getElementById('dots');
+  const count=document.getElementById('count');
+  let i=0;
+  slides.forEach((_,n)=>{
+    const d=document.createElement('button');
+    d.className='dot'+(n===0?' on':'');
+    d.setAttribute('aria-label',(n+1)+'번 슬라이드');
+    d.onclick=()=>go(n);
+    dotsWrap.appendChild(d);
+  });
+  const dots=[...dotsWrap.children];
+  function go(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    dots.forEach((d,k)=>d.classList.toggle('on',k===i));
+    count.textContent=(i+1)+' / '+slides.length;
+  }
+  document.getElementById('next').onclick=()=>go(i+1);
+  document.getElementById('prev').onclick=()=>go(i-1);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight')go(i+1);
+    if(e.key==='ArrowLeft')go(i-1);
+  });
+  go(0);
+</script>
+</body>
+</html>
