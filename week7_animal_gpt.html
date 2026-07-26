@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>日本語スタディ発表スライド</title>
+  <style>
+    :root {
+      --bg1: #fff7ed;
+      --bg2: #fef3c7;
+      --ink: #1f2937;
+      --muted: #6b7280;
+      --accent: #f97316;
+      --accent2: #2563eb;
+      --card: rgba(255,255,255,.82);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", "Noto Sans JP", sans-serif;
+      background: radial-gradient(circle at top left, var(--bg2), var(--bg1) 42%, #eff6ff 100%);
+      color: var(--ink);
+      overflow: hidden;
+    }
+    .deck { width: 100vw; height: 100vh; position: relative; }
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: none;
+      padding: 56px 72px 72px;
+      flex-direction: column;
+      justify-content: center;
+      gap: 26px;
+    }
+    .slide.active { display: flex; }
+    .title {
+      font-size: clamp(42px, 5.2vw, 78px);
+      line-height: 1.12;
+      font-weight: 850;
+      letter-spacing: -0.04em;
+      margin: 0;
+    }
+    .subtitle { font-size: clamp(22px, 2.4vw, 36px); color: var(--muted); margin: 0; }
+    .emoji { font-size: 78px; margin-bottom: 10px; }
+    .card {
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.65);
+      border-radius: 32px;
+      padding: 34px 38px;
+      box-shadow: 0 18px 50px rgba(31,41,55,.12);
+    }
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--accent);
+      margin-bottom: 10px;
+      letter-spacing: .02em;
+    }
+    .jp {
+      font-size: clamp(30px, 3.5vw, 52px);
+      line-height: 1.55;
+      font-weight: 760;
+      color: #111827;
+    }
+    ruby rt {
+      font-size: .38em;
+      color: #4b5563;
+      font-weight: 600;
+    }
+    .kr-pron {
+      font-size: clamp(22px, 2.5vw, 34px);
+      line-height: 1.5;
+      color: var(--accent2);
+      font-weight: 720;
+    }
+    .ko {
+      font-size: clamp(20px, 2.2vw, 30px);
+      line-height: 1.6;
+      color: #374151;
+    }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+    .vocab {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px 24px;
+      font-size: clamp(20px, 2.1vw, 30px);
+    }
+    .word {
+      background: rgba(255,255,255,.62);
+      border-radius: 20px;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: baseline;
+    }
+    .word b { color: #111827; }
+    .word span { color: var(--muted); font-size: .78em; white-space: nowrap; }
+    .footer {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 28px;
+      color: #6b7280;
+      font-size: 16px;
+      pointer-events: none;
+    }
+    .progress {
+      position: fixed;
+      left: 0; bottom: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #f97316, #2563eb);
+      width: 0%;
+      transition: width .2s ease;
+    }
+    .hint { opacity: .75; }
+    @media (max-width: 700px) {
+      .slide { padding: 34px 22px 62px; }
+      .card { padding: 24px 22px; border-radius: 24px; }
+      .vocab { grid-template-columns: 1fr; }
+      .footer { font-size: 13px; padding: 14px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck">
+    <section class="slide active">
+      <div class="emoji">🐶🦫</div>
+      <h1 class="title">もし私が動物になるなら、<br>何になるでしょうか</h1>
+      <p class="subtitle">일본어 스터디 발표 원고</p>
+    </section>
+
+    <section class="slide">
+      <div class="grid">
+        <div class="card"><div class="label">🇯🇵 日本語</div><div class="jp"><ruby>皆<rt>みな</rt></ruby>さん、こんにちは。</div></div>
+        <div class="card"><div class="label">🇰🇷 발음</div><div class="kr-pron">미나상, 곤니치와.</div></div>
+        <div class="card"><div class="label">📖 해석</div><div class="ko">여러분, 안녕하세요.</div></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="grid">
+        <div class="card"><div class="label">🇯🇵 日本語</div><div class="jp"><ruby>今日<rt>きょう</rt></ruby>のテーマは、「もし<ruby>私<rt>わたし</rt></ruby>が<ruby>動物<rt>どうぶつ</rt></ruby>になるなら、<ruby>何<rt>なに</rt></ruby>になるでしょうか」です。</div></div>
+        <div class="card"><div class="label">🇰🇷 발음</div><div class="kr-pron">쿄오노 테에마와, “모시 와타시가 도오부츠니 나루나라, 나니니 나루데쇼오카” 데스.</div></div>
+        <div class="card"><div class="label">📖 해석</div><div class="ko">오늘의 주제는 “만약 제가 동물이 된다면, 무엇이 될까요?”입니다.</div></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="grid">
+        <div class="card"><div class="label">🇯🇵 日本語</div><div class="jp">もし<ruby>私<rt>わたし</rt></ruby>が<ruby>動物<rt>どうぶつ</rt></ruby>になるとしたら、<ruby>二<rt>ふた</rt></ruby>つの<ruby>動物<rt>どうぶつ</rt></ruby>が<ruby>思<rt>おも</rt></ruby>い<ruby>浮<rt>う</rt></ruby>かびます。</div></div>
+        <div class="card"><div class="label">🇰🇷 발음</div><div class="kr-pron">모시 와타시가 도오부츠니 나루토 시타라, 후타츠노 도오부츠가 오모이 우카비마스.</div></div>
+        <div class="card"><div class="label">📖 해석</div><div class="ko">만약 제가 동물이 된다면, 두 가지 동물이 떠오릅니다.</div></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="grid">
+        <div class="card"><div class="label">🇯🇵 日本語</div><div class="jp"><ruby>一<rt>ひと</rt></ruby>つ<ruby>目<rt>め</rt></ruby>は、<ruby>犬<rt>いぬ</rt></ruby>です。</div></div>
+        <div class="card"><div class="label">🇰🇷 발음</div><div class="kr-pron">히토츠메와, 이누데스.</div></div>
+        <div class="card"><div class="label">📖 해석</div><div class="ko">첫 번째는 개입니다.</div></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="grid">
+        <div class="card"><div class="label">🇯🇵 日本語</div><div class="jp"><ruby>私<rt>わたし</rt></ruby>は<ruby>初<rt>はじ</rt></ruby>めて<ruby>会<rt>あ</rt></ruby>う<ruby>人<rt>ひと</rt></ruby>には<ruby>少<rt>すこ</rt></ruby>し<ruby>人見知<rt>ひとみし</rt></ruby>りをしますが、<ruby>一度<rt>いちど</rt></ruby><ruby>仲良<rt>なかよ</rt></ruby>くなると、とても<ruby>明<rt>あか</rt></ruby>るく<ruby>社交的<rt>しゃこうてき</rt></ruby>になります。</div></div>
+        <div class="card"><div class="label">🇰🇷 발음</div><div class="kr-pron">와타시와 하지메테 아우 히토니와 스코시 히토미시리오 시마스가, 이치도 나카요쿠 나루토, 토테모 아카루쿠 샤코오테키니 나리마스.</div></div>
+        <div class="card"><div class="label">📖 해석</div><div class="ko">저는 처음 만나는 사람에게는 조금 낯을 가리지만, 한 번 친해지면 매우 밝고 사교적으로 변합니다.</div></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="grid">
+        <div class="card"><div class="label">🇯🇵 日本語</div><div class="jp">また、<ruby>話<rt>はな</rt></ruby>すときは<ruby>身<rt>み</rt></ruby>ぶりや<ruby>手<rt>て</rt></ruby>ぶりをよく<ruby>使<rt>つか</rt></ruby>いますし、ときどき<ruby>匂<rt>にお</rt></ruby>いや<ruby>直感<rt>ちょっかん</rt></ruby>で<ruby>何<rt>なに</rt></ruby>かを<ruby>感<rt>かん</rt></ruby>じ<ruby>取<rt>と</rt></ruby>ることもあります。</div></div>
+        <div class="card"><div class="label">🇰🇷 발음</div><div class="kr-pron">마타, 하나스 토키와 미부리야 테부리오 요쿠 츠카이마스시, 토키도키 니오이야 촉칸데 나니카오 칸지토루 코토모 아리마스.</div></div>
+        <div class="card"><div class="label">📖 해석</div><div class="ko">또한 말할 때 몸짓이나 손짓을 자주 쓰고, 가끔은 냄새나 직감으로 무언가를 느끼기도 합니다.</div></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="grid">
+        <div class="card"><div class="label">🇯🇵 日本語</div><div class="jp">そのため、<ruby>私<rt>わたし</rt></ruby>に<ruby>一番<rt>いちばん</rt></ruby><ruby>似<rt>に</rt></ruby>ている<ruby>動物<rt>どうぶつ</rt></ruby>の<ruby>一<rt>ひと</rt></ruby>つは<ruby>犬<rt>いぬ</rt></ruby>だと<ruby>思<rt>おも</rt></ruby>います。</div></div>
+        <div class="card"><div class="label">🇰🇷 발음</div><div class="kr-pron">소노 타메, 와타시니 이치반 니테이루 도오부츠노 히토츠와 이누다토 오모이마스.</div></div>
+        <div class="card"><div class="label">📖 해석</div><div class="ko">그래서 저와 가장 비슷한 동물 중 하나는 개라고 생각합니다.</div></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="grid">
+        <div class="card"><div class="label">🇯🇵 日本語</div><div class="jp"><ruby>二<rt>ふた</rt></ruby>つ<ruby>目<rt>め</rt></ruby>は、ミーアキャットです。</div></div>
+        <div class="card"><div class="label">🇰🇷 발음</div><div class="kr-pron">후타츠메와, 미아캿토데스.</div></div>
+        <div class="card"><div class="label">📖 해석</div><div class="ko">두 번째는 미어캣입니다.</div></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="grid">
+        <div class="card"><div class="label">🇯🇵 日本語</div><div class="jp"><ruby>私<rt>わたし</rt></ruby>は<ruby>周<rt>まわ</rt></ruby>りの<ruby>人<rt>ひと</rt></ruby>の<ruby>様子<rt>ようす</rt></ruby>をよく<ruby>気<rt>き</rt></ruby>にしますし、<ruby>周囲<rt>しゅうい</rt></ruby>をきょろきょろ<ruby>見回<rt>みまわ</rt></ruby>すこともよくあります。</div></div>
+        <div class="card"><div class="label">🇰🇷 발음</div><div class="kr-pron">와타시와 마와리노 히토노 요오스오 요쿠 키니 시마스시, 슈우이오 쿄로쿄로 미마와스 코토모 요쿠 아리마스.</div></div>
+        <div class="card"><div class="label">📖 해석</div><div class="ko">저는 주변 사람들의 반응을 자주 신경 쓰고, 주변을 두리번거리는 일도 많습니다.</div></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="grid">
+        <div class="card"><div class="label">🇯🇵 日本語</div><div class="jp">そのせいか、<ruby>友達<rt>ともだち</rt></ruby>からは「<ruby>行動<rt>こうどう</rt></ruby>や<ruby>雰囲気<rt>ふんいき</rt></ruby>がミーアキャットに<ruby>似<rt>に</rt></ruby>ているね」と<ruby>言<rt>い</rt></ruby>われることがあります。</div></div>
+        <div class="card"><div class="label">🇰🇷 발음</div><div class="kr-pron">소노 세이카, 토모다치카라와 “코오도오야 훈이키가 미아캿토니 니테이루네” 토 이와레루 코토가 아리마스.</div></div>
+        <div class="card"><div class="label">📖 해석</div><div class="ko">그래서인지 친구들에게 “행동이나 분위기가 미어캣을 닮았다”는 말을 듣곤 합니다.</div></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="grid">
+        <div class="card"><div class="label">🇯🇵 日本語</div><div class="jp"><ruby>皆<rt>みな</rt></ruby>さんはどう<ruby>思<rt>おも</rt></ruby>いますか。</div></div>
+        <div class="card"><div class="label">🇰🇷 발음</div><div class="kr-pron">미나상와 도오 오모이마스카.</div></div>
+        <div class="card"><div class="label">📖 해석</div><div class="ko">여러분은 어떻게 생각하시나요?</div></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="grid">
+        <div class="card"><div class="label">🇯🇵 日本語</div><div class="jp"><ruby>私<rt>わたし</rt></ruby>に<ruby>一番<rt>いちばん</rt></ruby><ruby>似<rt>に</rt></ruby>ている<ruby>動物<rt>どうぶつ</rt></ruby>は<ruby>何<rt>なん</rt></ruby>だと<ruby>思<rt>おも</rt></ruby>いますか。</div></div>
+        <div class="card"><div class="label">🇰🇷 발음</div><div class="kr-pron">와타시니 이치반 니테이루 도오부츠와 난다토 오모이마스카.</div></div>
+        <div class="card"><div class="label">📖 해석</div><div class="ko">제가 가장 닮은 동물은 무엇이라고 생각하시나요?</div></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="grid">
+        <div class="card"><div class="label">🇯🇵 日本語</div><div class="jp">ご<ruby>清聴<rt>せいちょう</rt></ruby>ありがとうございました。</div></div>
+        <div class="card"><div class="label">🇰🇷 발음</div><div class="kr-pron">고세이초오 아리가토오 고자이마시타.</div></div>
+        <div class="card"><div class="label">📖 해석</div><div class="ko">끝까지 들어주셔서 감사합니다.</div></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <h2 class="title">핵심 단어 10개</h2>
+      <div class="card vocab">
+        <div class="word"><b><ruby>動物<rt>どうぶつ</rt></ruby></b><span>동물</span></div>
+        <div class="word"><b><ruby>犬<rt>いぬ</rt></ruby></b><span>개</span></div>
+        <div class="word"><b><ruby>人見知<rt>ひとみし</rt></ruby>り</b><span>낯가림</span></div>
+        <div class="word"><b><ruby>仲良<rt>なかよ</rt></ruby>くなる</b><span>친해지다</span></div>
+        <div class="word"><b><ruby>社交的<rt>しゃこうてき</rt></ruby></b><span>사교적</span></div>
+        <div class="word"><b><ruby>身<rt>み</rt></ruby>ぶり</b><span>몸짓</span></div>
+        <div class="word"><b><ruby>手<rt>て</rt></ruby>ぶり</b><span>손짓</span></div>
+        <div class="word"><b><ruby>匂<rt>にお</rt></ruby>い</b><span>냄새</span></div>
+        <div class="word"><b><ruby>直感<rt>ちょっかん</rt></ruby></b><span>직감</span></div>
+        <div class="word"><b><ruby>雰囲気<rt>ふんいき</rt></ruby></b><span>분위기</span></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="footer">
+    <span class="hint">← → 또는 Space 키로 이동</span>
+    <span id="counter"></span>
+  </div>
+  <div class="progress" id="progress"></div>
+
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    const counter = document.getElementById('counter');
+    const progress = document.getElementById('progress');
+    let current = 0;
+    function show(index) {
+      current = Math.max(0, Math.min(index, slides.length - 1));
+      slides.forEach((s, i) => s.classList.toggle('active', i === current));
+      counter.textContent = `${current + 1} / ${slides.length}`;
+      progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+      history.replaceState(null, '', `#${current + 1}`);
+    }
+    function next() { show(current + 1); }
+    function prev() { show(current - 1); }
+    document.addEventListener('keydown', (e) => {
+      if (['ArrowRight', ' ', 'PageDown', 'Enter'].includes(e.key)) next();
+      if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) prev();
+    });
+    document.addEventListener('click', (e) => {
+      if (e.clientX > window.innerWidth / 2) next(); else prev();
+    });
+    const start = Number(location.hash.replace('#',''));
+    show(Number.isFinite(start) && start > 0 ? start - 1 : 0);
+  </script>
+</body>
+</html>
